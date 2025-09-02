@@ -16,11 +16,11 @@ const Navbar = () => {
   };
 
   return (
-    <header className="w-full flex items-center px-8 py-4 bg-gray-900 bg-opacity-70 rounded-full shadow-lg mt-4 mx-4">
+    <header className="w-full flex items-center px-6 py-4 bg-transparent">
       <img
         src={logo}
         alt="App Logo"
-        className="h-12 w-12 rounded-full object-cover shadow-lg cursor-pointer hover:bg-gray-800 hover:scale-105 transition-all duration-300"
+        className="h-16 w-16 rounded-full object-cover shadow-md cursor-pointer"
         onClick={goHome}
       />
     </header>
