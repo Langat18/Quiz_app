@@ -3,6 +3,7 @@ import Navbar from "./components/NavBar";
 import Footer from "./components/Footer";
 import Welcome from "./pages/welcome";
 import Selection from "./pages/Selection";
+import Results from "./pages/Result";
 import './App.css'
 
 function App() {
