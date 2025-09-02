@@ -54,3 +54,38 @@ export default function App() {
     }
     return a;
   };
+
+  const handleStartQuiz = async () => {
+    if (!selectedCategory || !selectedDifficulty) {
+      setError("Please choose a category and difficulty.");
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+      setShowResults(false);
+      setScore(0);
+      setCurrentQuestionIndex(0);
+
+      const url = `https://opentdb.com/api.php?amount=10&category=${selectedCategory}&difficulty=${selectedDifficulty}&type=multiple`;
+      const res = await fetch(url);
+      const data = await res.json();
+
+      if (data.response_code !== 0 || !Array.isArray(data.results)) {
+        throw new Error("Invalid response from API");
+      }
+
+      const normalized = data.results.map((q) => {
+        const decodedQuestion = decodeHtml(q.question);
+        const decodedCorrect = decodeHtml(q.correct_answer);
+        const decodedIncorrect = q.incorrect_answers.map((a) => decodeHtml(a));
+        const answers = shuffleArray([decodedCorrect, ...decodedIncorrect]);
+        return {
+          question: decodedQuestion,
+          answers,
+          correctAnswer: decodedCorrect,
+          category: q.category,
+          difficulty: q.difficulty,
+        };
+      });
