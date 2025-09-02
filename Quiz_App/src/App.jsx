@@ -124,3 +124,108 @@ export default function App() {
       setCurrentQuestionIndex(nextIndex);
     }
   };
+
+    const handleRestartQuiz = () => {
+    setIsQuizStarted(false);
+    setShowResults(false);
+    setQuestions([]);
+    setCurrentQuestionIndex(0);
+    setScore(0);
+  };
+
+  return (
+    <div
+      className="min-h-screen relative"
+      style={{ backgroundColor: "#FFAE00" }}
+    >
+      {/* Global Navbar fixed at top-left (absolute) */}
+      <div className="absolute top-4 left-4 z-50">
+        <Navbar />
+      </div>
+
+      {/* Main centered area */}
+      <div className="flex items-center justify-center min-h-screen px-4">
+        <div className="w-full max-w-md">
+          {/* Loading / Error */}
+          {loading && (
+            <div className="text-center text-gray-800 text-lg mb-4">
+              Loading...
+            </div>
+          )}
+          {error && (
+            <div className="text-center text-red-500 text-lg mb-4">
+              Error: {error}
+            </div>
+          )}
+
+          {/* Welcome screen (shown first) */}
+          {!hasSeenWelcome && !loading && !error && (
+            <div>
+              <Welcome onStart={() => setHasSeenWelcome(true)} />
+            </div>
+          )}
+
+          {/* Selection screen (after welcome) */}
+          {hasSeenWelcome &&
+            !isQuizStarted &&
+            !loading &&
+            !error &&
+            !showResults && (
+              <div>
+                <Selection
+                  categories={categories}
+                  selectedCategory={selectedCategory}
+                  setSelectedCategory={setSelectedCategory}
+                  selectedDifficulty={selectedDifficulty}
+                  setSelectedDifficulty={setSelectedDifficulty}
+                  onStartQuiz={handleStartQuiz}
+                />
+              </div>
+            )}
+
+          {/* Quiz screen */}
+          {isQuizStarted && !showResults && questions.length > 0 && (
+            <div>
+              <Quiz
+                question={questions[currentQuestionIndex]}
+                currentQuestionIndex={currentQuestionIndex}
+                totalQuestions={questions.length}
+                onAnswer={handleAnswer}
+                onTimeout={handleTimeout}
+                timePerQuestion={15}
+              />
+            </div>
+          )}
+
+          {/* Results screen */}
+          {showResults && (
+            <div>
+              <Results
+                score={score}
+                total={questions.length}
+                onRetry={() => {
+                  setScore(0);
+                  setCurrentQuestionIndex(0);
+                  setShowResults(false);
+                  setIsQuizStarted(true);
+                }}
+                onChooseNew={() => {
+                  setIsQuizStarted(false);
+                  setShowResults(false);
+                  setQuestions([]);
+                  setCurrentQuestionIndex(0);
+                  setScore(0);
+                }}
+              />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Position Footer outside the card */}
+      <div className="absolute bottom-4 left-0 right-0 flex justify-center">
+        <Footer />
+      </div>
+    </div>
+  );
+}
