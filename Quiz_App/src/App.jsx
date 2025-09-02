@@ -89,3 +89,38 @@ export default function App() {
           difficulty: q.difficulty,
         };
       });
+
+      setQuestions(normalized);
+      setIsQuizStarted(true);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load questions.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleAnswer = (answer) => {
+    const current = questions[currentQuestionIndex];
+    if (answer && answer === current.correctAnswer) {
+      setScore((s) => s + 1);
+    }
+
+    const nextIndex = currentQuestionIndex + 1;
+    if (nextIndex >= questions.length) {
+      setShowResults(true);
+      setIsQuizStarted(false);
+    } else {
+      setCurrentQuestionIndex(nextIndex);
+    }
+  };
+
+  const handleTimeout = () => {
+    const nextIndex = currentQuestionIndex + 1;
+    if (nextIndex >= questions.length) {
+      setShowResults(true);
+      setIsQuizStarted(false);
+    } else {
+      setCurrentQuestionIndex(nextIndex);
+    }
+  };
