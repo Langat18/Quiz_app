@@ -18,3 +18,39 @@ export default function App() {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [showResults, setShowResults] = useState(false);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const res = await fetch("https://opentdb.com/api_category.php");
+        const data = await res.json();
+        setCategories(data.trivia_categories || []);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load categories.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (hasSeenWelcome) {
+      fetchCategories();
+    }
+  }, [hasSeenWelcome]);
+
+  const decodeHtml = (html) => {
+    const txt = document.createElement("textarea");
+    txt.innerHTML = html;
+    return txt.value;
+  };
+
+  const shuffleArray = (arr) => {
+    const a = [...arr];
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  };
