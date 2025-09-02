@@ -23,7 +23,6 @@ export default function Selection({
 
       <div className="relative z-10 w-full max-w-2xl mx-auto">
         <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl border border-slate-200 p-8 md:p-12">
-          {/* Header */}
           <div className="text-center mb-10">
             <div className="mb-6 relative">
               <div className="absolute inset-0 bg-[#0C7D74] rounded-full opacity-20 blur-xl scale-110"></div>

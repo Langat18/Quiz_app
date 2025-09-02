@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import Navbar from "./components/NavBar";
 import Footer from "./components/Footer";
+import Welcome from "./pages/welcome";
+import Selection from "./pages/Selection";
 import './App.css'
 
 function App() {
