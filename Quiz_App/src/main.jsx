@@ -4,3 +4,12 @@ import App from "./App";
 import "./index.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import ErrorBoundary from "./components/ErrorBound";
+
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <ErrorBoundary>
+      <App />
+    </ErrorBoundary>
+  </React.StrictMode>
+);
